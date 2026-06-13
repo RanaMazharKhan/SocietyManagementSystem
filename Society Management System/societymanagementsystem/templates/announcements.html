@@ -1,0 +1,235 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Society Announcements</title>
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    padding:40px;
+    color:white;
+    overflow-x:hidden;
+    background:linear-gradient(-45deg,#0f172a,#1e293b,#2563eb,#7c3aed);
+    background-size:400% 400%;
+    animation:gradientBG 12s ease infinite;
+}
+
+@keyframes gradientBG{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+/* Floating Background Elements */
+
+.circle{
+    position:fixed;
+    border-radius:50%;
+    background:rgba(255,255,255,.05);
+    animation:float 20s linear infinite;
+    z-index:-1;
+}
+
+.circle:nth-child(1){
+    width:150px;
+    height:150px;
+    left:10%;
+    bottom:-50px;
+}
+
+.circle:nth-child(2){
+    width:250px;
+    height:250px;
+    right:5%;
+    bottom:-100px;
+}
+
+.circle:nth-child(3){
+    width:100px;
+    height:100px;
+    left:70%;
+    top:10%;
+}
+
+@keyframes float{
+    from{
+        transform:translateY(0) rotate(0deg);
+    }
+    to{
+        transform:translateY(-1200px) rotate(360deg);
+    }
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+}
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:40px;
+    flex-wrap:wrap;
+    gap:15px;
+}
+
+.header h1{
+    font-size:40px;
+}
+
+.dashboard-btn{
+    text-decoration:none;
+    background:#3b82f6;
+    color:white;
+    padding:12px 20px;
+    border-radius:12px;
+    transition:.3s;
+    font-weight:600;
+}
+
+.dashboard-btn:hover{
+    transform:translateY(-3px);
+}
+
+.announcement-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:25px;
+}
+
+.card{
+    background:rgba(255,255,255,.08);
+    backdrop-filter:blur(20px);
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:20px;
+    padding:25px;
+    transition:.4s;
+    animation:fadeIn .8s ease;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+}
+
+.card h2{
+    margin-bottom:15px;
+    color:#ffffff;
+}
+
+.card p{
+    line-height:1.8;
+    color:#e2e8f0;
+}
+
+.date{
+    margin-top:20px;
+    font-size:14px;
+    color:#cbd5e1;
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(25px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.empty{
+    background:rgba(255,255,255,.08);
+    padding:40px;
+    text-align:center;
+    border-radius:20px;
+    font-size:18px;
+}
+
+@media(max-width:768px){
+
+    body{
+        padding:20px;
+    }
+
+    .header h1{
+        font-size:30px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="circle"></div>
+<div class="circle"></div>
+<div class="circle"></div>
+
+<div class="container">
+
+    <div class="header">
+
+        <h1>📢 Society Announcements</h1>
+
+        <a href="{% url 'dashboard' %}" class="dashboard-btn">
+            ← Dashboard
+        </a>
+
+    </div>
+
+    {% if announcements %}
+
+    <div class="announcement-grid">
+
+        {% for announcement in announcements %}
+
+        <div class="card">
+
+            <h2>
+                {{ announcement.title }}
+            </h2>
+
+            <p>
+                {{ announcement.message }}
+            </p>
+
+            <div class="date">
+                Posted:
+                {{ announcement.created_at|date:"d M Y - h:i A" }}
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <div class="empty">
+        No announcements available at the moment.
+    </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>
+

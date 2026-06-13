@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Send Email to Users | Society Management System</title>
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:linear-gradient(-45deg,#0f172a,#1e293b,#2563eb,#7c3aed);
+    background-size:400% 400%;
+    animation:gradientBG 12s ease infinite;
+    overflow-x:hidden;
+}
+
+@keyframes gradientBG{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+/* Sidebar */
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:260px;
+    height:100vh;
+    background:rgba(255,255,255,.08);
+    backdrop-filter:blur(20px);
+    border-right:1px solid rgba(255,255,255,.1);
+    padding:25px;
+    z-index:100;
+}
+
+.logo{
+    color:white;
+    text-align:center;
+    margin-bottom:40px;
+}
+
+.logo h2{
+    font-size:26px;
+}
+
+.logo span{
+    color:#a78bfa;
+}
+
+.menu{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+.menu a{
+    text-decoration:none;
+    color:white;
+    padding:14px;
+    border-radius:12px;
+    transition:.3s;
+}
+
+.menu a:hover{
+    background:rgba(255,255,255,.1);
+    transform:translateX(5px);
+}
+
+/* Main Content */
+.main-content{
+    margin-left:260px;
+    padding:30px;
+}
+
+/* Header */
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:35px;
+    color:white;
+}
+
+.header h1{
+    font-size:35px;
+}
+
+.admin-badge{
+    background:#22c55e;
+    padding:10px 20px;
+    border-radius:30px;
+    font-size:14px;
+}
+
+/* Form Container */
+.form-container{
+    background:rgba(255,255,255,.08);
+    backdrop-filter:blur(20px);
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:20px;
+    padding:40px;
+    color:white;
+    max-width:800px;
+    margin:0 auto;
+    animation:slideIn 0.5s ease;
+}
+
+@keyframes slideIn{
+    from{
+        opacity:0;
+        transform:translateY(30px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.form-container h2{
+    font-size:28px;
+    margin-bottom:10px;
+    color:#e0e7ff;
+}
+
+.form-container p{
+    color:#cbd5e1;
+    margin-bottom:30px;
+}
+
+/* Form Groups */
+.form-group{
+    margin-bottom:25px;
+}
+
+label{
+    display:block;
+    margin-bottom:10px;
+    color:#e2e8f0;
+    font-weight:500;
+    font-size:15px;
+}
+
+input[type="text"],
+textarea{
+    width:100%;
+    padding:14px;
+    border:1px solid rgba(255,255,255,.2);
+    border-radius:10px;
+    background:rgba(255,255,255,.05);
+    color:white;
+    font-family:'Poppins',sans-serif;
+    font-size:15px;
+    transition:.3s;
+}
+
+input[type="text"]::placeholder,
+textarea::placeholder{
+    color:rgba(255,255,255,.5);
+}
+
+input[type="text"]:focus,
+textarea:focus{
+    outline:none;
+    border-color:rgba(255,255,255,.4);
+    background:rgba(255,255,255,.08);
+}
+
+textarea{
+    min-height:300px;
+    resize:vertical;
+}
+
+/* Info Box */
+.info-box{
+    background:rgba(59,130,246,.1);
+    border:1px solid rgba(59,130,246,.3);
+    border-left:4px solid #3b82f6;
+    border-radius:10px;
+    padding:15px;
+    margin-bottom:25px;
+    color:#e0e7ff;
+    font-size:14px;
+}
+
+.info-box strong{
+    color:#93c5fd;
+}
+
+/* Alert Messages */
+.alert{
+    padding:15px;
+    border-radius:10px;
+    margin-bottom:25px;
+    font-size:14px;
+    animation:fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn{
+    from{opacity:0;}
+    to{opacity:1;}
+}
+
+.alert-error{
+    background:rgba(239,68,68,.1);
+    border:1px solid rgba(239,68,68,.3);
+    color:#fca5a5;
+    border-left:4px solid #ef4444;
+}
+
+.alert-success{
+    background:rgba(34,197,94,.1);
+    border:1px solid rgba(34,197,94,.3);
+    color:#86efac;
+    border-left:4px solid #22c55e;
+}
+
+/* Button */
+.button-group{
+    display:flex;
+    gap:15px;
+    margin-top:35px;
+}
+
+button,
+.btn{
+    padding:14px 30px;
+    border:none;
+    border-radius:10px;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+    text-decoration:none;
+    display:inline-block;
+    text-align:center;
+}
+
+.btn-primary{
+    background:linear-gradient(135deg,#3b82f6,#8b5cf6);
+    color:white;
+}
+
+.btn-primary:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 25px rgba(59,130,246,.3);
+}
+
+.btn-secondary{
+    background:rgba(255,255,255,.1);
+    color:white;
+    border:1px solid rgba(255,255,255,.2);
+}
+
+.btn-secondary:hover{
+    background:rgba(255,255,255,.15);
+    transform:translateY(-2px);
+}
+
+/* Character Counter */
+.char-count{
+    font-size:12px;
+    color:rgba(255,255,255,.6);
+    text-align:right;
+    margin-top:5px;
+}
+
+/* Responsive */
+@media(max-width:900px){
+    .sidebar{
+        width:100%;
+        height:auto;
+        position:relative;
+    }
+
+    .main-content{
+        margin-left:0;
+    }
+
+    .menu{
+        flex-direction:row;
+        flex-wrap:wrap;
+    }
+
+    .form-container{
+        padding:25px;
+    }
+
+    .form-container h2{
+        font-size:22px;
+    }
+
+    .button-group{
+        flex-direction:column;
+    }
+}
+
+@media(max-width:600px){
+    .header{
+        flex-direction:column;
+        gap:15px;
+        text-align:center;
+    }
+
+    .header h1{
+        font-size:24px;
+    }
+
+    .form-container{
+        padding:20px;
+    }
+
+    textarea{
+        min-height:200px;
+    }
+}
+
+</style>
+
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <div class="logo">
+        <h2>SMS<span>.</span></h2>
+    </div>
+    <div class="menu">
+        <a href="{% url 'admin_dashboard' %}">📊 Dashboard</a>
+        <a href="{% url 'manage_requests' %}">📋 Requests</a>
+        <a href="{% url 'manage_announcements' %}">📢 Announcements</a>
+        <a href="{% url 'manage_users' %}">👥 Users</a>
+        <a href="{% url 'send_email_all' %}">📧 Send Email</a>
+        <a href="{% url 'admin_logout' %}">🔓 Logout</a>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+    <!-- Header -->
+    <div class="header">
+        <h1>📧 Send Email to All Users</h1>
+        <span class="admin-badge">✓ Admin Access</span>
+    </div>
+
+    <!-- Form Container -->
+    <div class="form-container">
+
+        <!-- Error Alert -->
+        {% if error %}
+        <div class="alert alert-error">
+            <strong>⚠️ Error!</strong> {{ error }}
+        </div>
+        {% endif %}
+
+        <!-- Success Alert -->
+        {% if success %}
+        <div class="alert alert-success">
+            <strong>✅ Success!</strong> {{ success }}
+        </div>
+        {% endif %}
+
+        <!-- Info Box -->
+        <div class="info-box">
+            <strong>📌 Recipients:</strong> This email will be sent to <strong>{{ user_count }}</strong> active user(s) in the system.
+        </div>
+
+        <!-- Form -->
+        <form method="POST">
+            {% csrf_token %}
+
+            <!-- Subject -->
+            <div class="form-group">
+                <label for="subject">📝 Email Subject</label>
+                <input 
+                    type="text" 
+                    id="subject" 
+                    name="subject" 
+                    placeholder="e.g., Important Notice for All Residents"
+                    required
+                    maxlength="200"
+                >
+                <div class="char-count"><span id="subject-count">0</span>/200</div>
+            </div>
+
+            <!-- Message -->
+            <div class="form-group">
+                <label for="message">💬 Email Message</label>
+                <textarea 
+                    id="message" 
+                    name="message" 
+                    placeholder="Write your email message here..."
+                    required
+                ></textarea>
+                <div class="char-count"><span id="message-count">0</span> characters</div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="button-group">
+                <button type="submit" class="btn btn-primary">
+                    ✉️ Send Email
+                </button>
+                <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary">
+                    ← Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+<!-- Floating Shapes -->
+<div class="circle"></div>
+<div class="circle"></div>
+
+<script>
+// Character counter for subject
+document.getElementById('subject').addEventListener('input', function(){
+    document.getElementById('subject-count').textContent = this.value.length;
+});
+
+// Character counter for message
+document.getElementById('message').addEventListener('input', function(){
+    document.getElementById('message-count').textContent = this.value.length;
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manage Users</title>
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+min-height:100vh;
+padding:30px;
+background:linear-gradient(-45deg,#0f172a,#1e293b,#2563eb,#7c3aed);
+background-size:400% 400%;
+animation:bgMove 12s ease infinite;
+color:white;
+overflow-x:hidden;
+}
+
+@keyframes bgMove{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+gap:15px;
+margin-bottom:30px;
+}
+
+.header h1{
+font-size:35px;
+}
+
+.back-btn{
+text-decoration:none;
+background:#3b82f6;
+color:white;
+padding:12px 20px;
+border-radius:12px;
+transition:.3s;
+}
+
+.back-btn:hover{
+transform:translateY(-3px);
+}
+
+.search-box{
+margin-bottom:25px;
+}
+
+.search-box form{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
+
+.search-box input{
+
+flex:1;
+min-width:250px;
+
+padding:14px;
+
+border:none;
+outline:none;
+
+border-radius:12px;
+
+background:rgba(255,255,255,.12);
+
+color:white;
+}
+
+.search-box input::placeholder{
+color:#d1d5db;
+}
+
+.search-btn{
+
+padding:14px 22px;
+
+border:none;
+
+border-radius:12px;
+
+background:#10b981;
+
+color:white;
+
+cursor:pointer;
+
+font-weight:600;
+}
+
+.table-container{
+
+background:rgba(255,255,255,.08);
+
+backdrop-filter:blur(20px);
+
+border-radius:20px;
+
+overflow:auto;
+
+border:1px solid rgba(255,255,255,.1);
+
+animation:fadeIn .8s ease;
+}
+
+@keyframes fadeIn{
+from{
+opacity:0;
+transform:translateY(20px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+min-width:1100px;
+}
+
+th{
+background:rgba(255,255,255,.12);
+padding:18px;
+text-align:left;
+}
+
+td{
+padding:18px;
+border-top:1px solid rgba(255,255,255,.08);
+}
+
+tr:hover{
+background:rgba(255,255,255,.05);
+}
+
+.delete-btn{
+
+background:#ef4444;
+
+padding:8px 15px;
+
+border-radius:8px;
+
+text-decoration:none;
+
+color:white;
+
+transition:.3s;
+}
+
+.delete-btn:hover{
+transform:translateY(-2px);
+}
+
+.no-users{
+padding:40px;
+text-align:center;
+font-size:18px;
+}
+
+@media(max-width:768px){
+
+body{
+padding:15px;
+}
+
+.header h1{
+font-size:28px;
+}
+
+.search-box form{
+flex-direction:column;
+}
+
+.search-btn{
+width:100%;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+
+<h1>👥 Manage House Users</h1>
+
+<a href="{% url 'admin_dashboard' %}" class="back-btn">
+← Dashboard
+</a>
+
+</div>
+
+<div class="search-box">
+
+<form method="GET">
+
+<input
+type="text"
+name="search"
+placeholder="Search by resident name..."
+value="{{ request.GET.search }}">
+
+<button class="search-btn">
+Search
+</button>
+
+</form>
+
+</div>
+
+<div class="table-container">
+
+{% if user_data %}
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>ID</th>
+<th>Name</th>
+<th>Email</th>
+<th>House Number</th>
+<th>Phone Number</th>
+<th>Total Requests</th>
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for item in user_data %}
+
+<tr>
+
+<td>{{ item.user.id }}</td>
+
+<td>{{ item.user.name }}</td>
+
+<td>{{ item.user.email }}</td>
+
+<td>{{ item.user.house_number }}</td>
+
+<td>{{ item.user.phone_number }}</td>
+
+<td>{{ item.total_requests }}</td>
+
+<td>
+
+<a
+href="{% url 'delete_user' item.user.id %}"
+class="delete-btn"
+onclick="return confirm('Delete this user?')">
+
+Delete
+
+</a>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+{% else %}
+
+<div class="no-users">
+
+No Registered Users Found
+
+</div>
+
+{% endif %}
+
+</div>
+
+</body>
+</html>

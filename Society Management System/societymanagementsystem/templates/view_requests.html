@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Service Requests</title>
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    color:white;
+    background:linear-gradient(-45deg,#0f172a,#1e293b,#2563eb,#7c3aed);
+    background-size:400% 400%;
+    animation:bg 12s ease infinite;
+    padding:40px;
+}
+
+@keyframes bg{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+}
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+    flex-wrap:wrap;
+    gap:15px;
+}
+
+h1{
+    font-size:35px;
+}
+
+.dashboard-btn{
+    text-decoration:none;
+    background:#3b82f6;
+    color:white;
+    padding:12px 22px;
+    border-radius:10px;
+    transition:.3s;
+}
+
+.dashboard-btn:hover{
+    transform:translateY(-3px);
+}
+
+.table-box{
+    background:rgba(255,255,255,.08);
+    backdrop-filter:blur(20px);
+    border-radius:20px;
+    padding:25px;
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    background:rgba(255,255,255,.1);
+    padding:15px;
+    text-align:left;
+}
+
+td{
+    padding:15px;
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+tr:hover{
+    background:rgba(255,255,255,.05);
+}
+
+.badge{
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:600;
+}
+
+.pending{
+    background:#f59e0b;
+}
+
+.approved{
+    background:#10b981;
+}
+
+.completed{
+    background:#3b82f6;
+}
+
+.btn{
+    text-decoration:none;
+    color:white;
+    padding:8px 12px;
+    border-radius:8px;
+    margin-right:5px;
+    display:inline-block;
+    transition:.3s;
+}
+
+.edit{
+    background:#f59e0b;
+}
+
+.delete{
+    background:#ef4444;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+.empty{
+    text-align:center;
+    padding:40px;
+    font-size:18px;
+}
+
+@media(max-width:768px){
+
+    body{
+        padding:20px;
+    }
+
+    h1{
+        font-size:28px;
+    }
+
+    table{
+        font-size:14px;
+    }
+
+    .btn{
+        margin-bottom:5px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <h1>My Service Requests</h1>
+
+        <a href="{% url 'dashboard' %}" class="dashboard-btn">
+            ← Dashboard
+        </a>
+
+    </div>
+
+    <div class="table-box">
+
+        {% if requests %}
+
+        <table>
+
+            <tr>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+
+            {% for req in requests %}
+
+            <tr>
+
+                <td>{{ req.title }}</td>
+
+                <td>{{ req.category }}</td>
+
+                <td>
+
+                    {% if req.status == "PENDING" %}
+                        <span class="badge pending">
+                            Pending
+                        </span>
+
+                    {% elif req.status == "APPROVED" %}
+                        <span class="badge approved">
+                            Approved
+                        </span>
+
+                    {% else %}
+                        <span class="badge completed">
+                            Completed
+                        </span>
+                    {% endif %}
+
+                </td>
+
+                <td>{{ req.created_at }}</td>
+
+                <td>
+
+                    <a href="{% url 'edit_request' req.id %}"
+                       class="btn edit">
+                        Edit
+                    </a>
+
+                    <a href="{% url 'delete_request' req.id %}"
+                       class="btn delete">
+                        Delete
+                    </a>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+        {% else %}
+
+        <div class="empty">
+            No service requests submitted yet.
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+</body>
+</html>

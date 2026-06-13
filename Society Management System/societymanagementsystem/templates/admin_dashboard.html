@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard | Society Management System</title>
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:linear-gradient(-45deg,#0f172a,#1e293b,#2563eb,#7c3aed);
+    background-size:400% 400%;
+    animation:gradientBG 12s ease infinite;
+    overflow-x:hidden;
+}
+
+@keyframes gradientBG{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+/* Sidebar */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:260px;
+    height:100vh;
+
+    background:rgba(255,255,255,.08);
+
+    backdrop-filter:blur(20px);
+
+    border-right:1px solid rgba(255,255,255,.1);
+
+    padding:25px;
+
+    z-index:100;
+}
+
+.logo{
+    color:white;
+    text-align:center;
+    margin-bottom:40px;
+}
+
+.logo h2{
+    font-size:26px;
+}
+
+.logo span{
+    color:#a78bfa;
+}
+
+.menu{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+.menu a{
+    text-decoration:none;
+    color:white;
+
+    padding:14px;
+
+    border-radius:12px;
+
+    transition:.3s;
+}
+
+.menu a:hover{
+    background:rgba(255,255,255,.1);
+    transform:translateX(5px);
+}
+
+/* Main Content */
+
+.main-content{
+    margin-left:260px;
+    padding:30px;
+}
+
+/* Header */
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:35px;
+    color:white;
+}
+
+.header h1{
+    font-size:35px;
+}
+
+.admin-badge{
+    background:#22c55e;
+    padding:10px 20px;
+    border-radius:30px;
+    font-size:14px;
+}
+
+/* Cards */
+
+.card-container{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:25px;
+}
+
+.card{
+    background:rgba(255,255,255,.08);
+
+    backdrop-filter:blur(20px);
+
+    border:1px solid rgba(255,255,255,.1);
+
+    border-radius:20px;
+
+    padding:25px;
+
+    color:white;
+
+    transition:.4s;
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+.card::before{
+    content:'';
+    position:absolute;
+    width:200%;
+    height:200%;
+    background:rgba(255,255,255,.03);
+    top:-50%;
+    left:-50%;
+    transform:rotate(45deg);
+}
+
+.card:hover{
+    transform:translateY(-10px);
+}
+
+.card h3{
+    font-size:18px;
+    margin-bottom:10px;
+}
+
+.card .number{
+    font-size:40px;
+    font-weight:700;
+}
+
+.users{
+    border-left:5px solid #3b82f6;
+}
+
+.requests{
+    border-left:5px solid #8b5cf6;
+}
+
+.pending{
+    border-left:5px solid #f59e0b;
+}
+
+.approved{
+    border-left:5px solid #10b981;
+}
+
+.completed{
+    border-left:5px solid #06b6d4;
+}
+
+.announcements{
+    border-left:5px solid #ef4444;
+}
+
+/* Welcome Section */
+
+.welcome{
+    margin-top:35px;
+
+    background:rgba(255,255,255,.08);
+
+    backdrop-filter:blur(20px);
+
+    border-radius:20px;
+
+    padding:30px;
+
+    color:white;
+
+    animation:fadeIn 1s ease;
+}
+
+@keyframes fadeIn{
+
+    from{
+        opacity:0;
+        transform:translateY(30px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.welcome h2{
+    margin-bottom:15px;
+}
+
+.welcome p{
+    color:#e2e8f0;
+    line-height:1.8;
+}
+
+/* Floating Shapes */
+
+.circle{
+    position:fixed;
+    border-radius:50%;
+    background:rgba(255,255,255,.05);
+    animation:float 20s linear infinite;
+    z-index:-1;
+}
+
+.circle:nth-child(1){
+    width:200px;
+    height:200px;
+    left:10%;
+    bottom:-100px;
+}
+
+.circle:nth-child(2){
+    width:300px;
+    height:300px;
+    right:0;
+    bottom:-120px;
+}
+
+@keyframes float{
+
+    from{
+        transform:translateY(0) rotate(0deg);
+    }
+
+    to{
+        transform:translateY(-1200px) rotate(360deg);
+    }
+}
+
+/* Responsive */
+
+@media(max-width:900px){
+
+    .sidebar{
+        width:100%;
+        height:auto;
+        position:relative;
+    }
+
+    .main-content{
+        margin-left:0;
+    }
+
+    .menu{
+        flex-direction:row;
+        flex-wrap:wrap;
+    }
+}
+
+@media(max-width:600px){
+
+    .header{
+        flex-direction:column;
+        gap:15px;
+        text-align:center;
+    }
+
+    .header h1{
+        font-size:28px;
+    }
+
+    .card .number{
+        font-size:32px;
+    }
+}
+
+</style>
+</head>
+<body>
+
+<div class="circle"></div>
+<div class="circle"></div>
+
+<!-- Sidebar -->
+
+<div class="sidebar">
+
+    <div class="logo">
+        <h2>Society <span>Admin</span></h2>
+    </div>
+
+    <div class="menu">
+
+        <a href="{% url 'admin_dashboard' %}">
+            🏠 Dashboard
+        </a>
+
+        <a href="{% url 'manage_requests' %}">
+            🛠 Manage Requests
+        </a>
+
+        <a href="{% url 'manage_announcements' %}">
+            📢 Announcements
+        </a>
+
+        <a href="{% url 'manage_users' %}">
+            👥 House Users
+        </a>
+
+        <a href="{% url 'send_email_all' %}">
+            📧 Send Email
+        </a>
+
+        <a href="{% url 'admin_logout' %}">
+            🚪 Logout
+        </a>
+
+    </div>
+
+</div>
+
+<!-- Main Content -->
+
+<div class="main-content">
+
+    <div class="header">
+
+        <h1>Admin Dashboard</h1>
+
+        <div class="admin-badge">
+            Administrator
+        </div>
+
+    </div>
+
+    <div class="card-container">
+
+        <div class="card users">
+            <h3>Total Users</h3>
+            <div class="number">
+                {{ total_users }}
+            </div>
+        </div>
+
+        <div class="card requests">
+            <h3>Total Requests</h3>
+            <div class="number">
+                {{ total_requests }}
+            </div>
+        </div>
+
+        <div class="card pending">
+            <h3>Pending Requests</h3>
+            <div class="number">
+                {{ pending_requests }}
+            </div>
+        </div>
+
+        <div class="card approved">
+            <h3>Approved Requests</h3>
+            <div class="number">
+                {{ approved_requests }}
+            </div>
+        </div>
+
+        <div class="card completed">
+            <h3>Completed Requests</h3>
+            <div class="number">
+                {{ completed_requests }}
+            </div>
+        </div>
+
+        <div class="card announcements">
+            <h3>Total Announcements</h3>
+            <div class="number">
+                {{ total_announcements }}
+            </div>
+        </div>
+
+        <div class="card" style="border-left:5px solid #ec4899;">
+            <h3>Send Email</h3>
+            <p style="margin-top: 15px; color: #e2e8f0; font-size: 14px;">
+                Broadcast emails to all active users
+            </p>
+            <a href="{% url 'send_email_all' %}" style="display: inline-block; margin-top: 15px; padding: 8px 16px; background: #ec4899; color: white; border-radius: 6px; text-decoration: none; font-size: 13px;">
+                📧 Send Email
+            </a>
+        </div>
+
+    </div>
+
+    <div class="welcome">
+
+        <h2>Welcome Administrator 👋</h2>
+
+        <p>
+            From this dashboard you can manage all society operations.
+            Review resident service requests, approve maintenance tasks,
+            mark services as completed, create announcements, monitor
+            registered house users and keep the society running smoothly.
+        </p>
+
+    </div>
+
+</div>
+
+</body>
+</html>

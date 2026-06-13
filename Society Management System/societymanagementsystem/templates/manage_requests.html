@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manage Requests</title>
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    padding:30px;
+    background:linear-gradient(-45deg,#0f172a,#1e293b,#2563eb,#7c3aed);
+    background-size:400% 400%;
+    animation:bgAnimation 12s ease infinite;
+    color:white;
+}
+
+@keyframes bgAnimation{
+
+    0%{
+        background-position:0% 50%;
+    }
+
+    50%{
+        background-position:100% 50%;
+    }
+
+    100%{
+        background-position:0% 50%;
+    }
+
+}
+
+.header{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+    flex-wrap:wrap;
+    gap:15px;
+}
+
+.header h1{
+    font-size:35px;
+}
+
+.back-btn{
+
+    text-decoration:none;
+    color:white;
+
+    background:#3b82f6;
+
+    padding:12px 20px;
+
+    border-radius:12px;
+
+    transition:.3s;
+}
+
+.back-btn:hover{
+    transform:translateY(-3px);
+}
+
+.table-container{
+
+    background:rgba(255,255,255,.08);
+
+    backdrop-filter:blur(20px);
+
+    border-radius:20px;
+
+    overflow:auto;
+
+    border:1px solid rgba(255,255,255,.1);
+
+    animation:fadeIn .8s ease;
+}
+
+@keyframes fadeIn{
+
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+table{
+
+    width:100%;
+    border-collapse:collapse;
+    min-width:1000px;
+}
+
+th{
+
+    background:rgba(255,255,255,.12);
+
+    padding:18px;
+
+    text-align:left;
+}
+
+td{
+
+    padding:18px;
+
+    border-top:1px solid rgba(255,255,255,.08);
+}
+
+tr:hover{
+    background:rgba(255,255,255,.05);
+}
+
+.status{
+
+    padding:8px 14px;
+
+    border-radius:20px;
+
+    font-size:13px;
+
+    font-weight:600;
+}
+
+.pending{
+    background:#f59e0b;
+}
+
+.approved{
+    background:#10b981;
+}
+
+.completed{
+    background:#06b6d4;
+}
+
+.actions{
+
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+.btn{
+
+    text-decoration:none;
+
+    color:white;
+
+    padding:8px 12px;
+
+    border-radius:8px;
+
+    font-size:13px;
+
+    transition:.3s;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+.approve-btn{
+    background:#22c55e;
+}
+
+.complete-btn{
+    background:#0ea5e9;
+}
+
+.delete-btn{
+    background:#ef4444;
+}
+
+.no-data{
+
+    text-align:center;
+
+    padding:40px;
+
+    font-size:18px;
+}
+
+@media(max-width:768px){
+
+    body{
+        padding:15px;
+    }
+
+    .header h1{
+        font-size:28px;
+    }
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="header">
+
+    <h1>🛠 Manage Service Requests</h1>
+
+    <a href="{% url 'admin_dashboard' %}" class="back-btn">
+        ← Dashboard
+    </a>
+
+</div>
+
+<div class="table-container">
+
+{% if requests %}
+
+<table>
+
+    <thead>
+
+        <tr>
+
+            <th>User</th>
+            <th>House No</th>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Status</th>
+            <th>Date</th>
+            <th>Actions</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+    {% for req in requests %}
+
+        <tr>
+
+            <td>{{ req.user.name }}</td>
+
+            <td>{{ req.user.house_number }}</td>
+
+            <td>{{ req.title }}</td>
+
+            <td>{{ req.category }}</td>
+
+            <td>
+
+                {% if req.status == "PENDING" %}
+
+                    <span class="status pending">
+                        Pending
+                    </span>
+
+                {% elif req.status == "APPROVED" %}
+
+                    <span class="status approved">
+                        Approved
+                    </span>
+
+                {% else %}
+
+                    <span class="status completed">
+                        Completed
+                    </span>
+
+                {% endif %}
+
+            </td>
+
+            <td>
+
+                {{ req.created_at|date:"d M Y" }}
+
+            </td>
+
+            <td>
+
+                <div class="actions">
+
+                    {% if req.status == "PENDING" %}
+
+                    <a href="{% url 'approve_request' req.id %}"
+                       class="btn approve-btn">
+                        Approve
+                    </a>
+
+                    {% endif %}
+
+                    {% if req.status != "COMPLETED" %}
+
+                    <a href="{% url 'complete_request' req.id %}"
+                       class="btn complete-btn">
+                        Complete
+                    </a>
+
+                    {% endif %}
+
+                    <a href="{% url 'delete_request_admin' req.id %}"
+                       class="btn delete-btn">
+                        Delete
+                    </a>
+
+                </div>
+
+            </td>
+
+        </tr>
+
+    {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% else %}
+
+<div class="no-data">
+
+    No Service Requests Found
+
+</div>
+
+{% endif %}
+
+</div>
+
+</body>
+</html>

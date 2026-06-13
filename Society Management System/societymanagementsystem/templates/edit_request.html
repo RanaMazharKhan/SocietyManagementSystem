@@ -1,0 +1,313 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edit Service Request</title>
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    overflow:hidden;
+    background:linear-gradient(-45deg,#0f172a,#1e293b,#2563eb,#7c3aed);
+    background-size:400% 400%;
+    animation:bgMove 12s ease infinite;
+}
+
+@keyframes bgMove{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+.circle{
+    position:absolute;
+    border-radius:50%;
+    background:rgba(255,255,255,.05);
+    animation:float 15s linear infinite;
+}
+
+.circle:nth-child(1){
+    width:180px;
+    height:180px;
+    left:10%;
+    bottom:-50px;
+}
+
+.circle:nth-child(2){
+    width:250px;
+    height:250px;
+    right:5%;
+    bottom:-100px;
+}
+
+.circle:nth-child(3){
+    width:120px;
+    height:120px;
+    top:10%;
+    right:25%;
+}
+
+@keyframes float{
+    from{
+        transform:translateY(0) rotate(0deg);
+    }
+    to{
+        transform:translateY(-1200px) rotate(360deg);
+    }
+}
+
+.container{
+    width:100%;
+    max-width:650px;
+    background:rgba(255,255,255,.08);
+    backdrop-filter:blur(20px);
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:25px;
+    padding:35px;
+    color:white;
+    animation:fadeIn .8s ease;
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(30px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+h1{
+    text-align:center;
+    margin-bottom:10px;
+}
+
+.subtitle{
+    text-align:center;
+    color:#cbd5e1;
+    margin-bottom:30px;
+}
+
+.form-group{
+    margin-bottom:20px;
+}
+
+label{
+    display:block;
+    margin-bottom:8px;
+    font-weight:500;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    padding:14px;
+    border:none;
+    outline:none;
+    border-radius:12px;
+    background:rgba(255,255,255,.12);
+    color:white;
+    transition:.3s;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    background:rgba(255,255,255,.18);
+    box-shadow:0 0 15px rgba(255,255,255,.15);
+}
+
+textarea{
+    resize:none;
+    min-height:140px;
+}
+
+option{
+    color:black;
+}
+
+.buttons{
+    display:flex;
+    gap:15px;
+    margin-top:25px;
+}
+
+.btn{
+    flex:1;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    font-weight:600;
+    transition:.3s;
+    color:white;
+}
+
+.update-btn{
+    background:#10b981;
+}
+
+.cancel-btn{
+    background:#ef4444;
+}
+
+.btn:hover{
+    transform:translateY(-3px);
+}
+
+.status-box{
+    background:rgba(255,255,255,.08);
+    padding:12px;
+    border-radius:10px;
+    margin-bottom:20px;
+    text-align:center;
+    font-weight:600;
+}
+
+@media(max-width:600px){
+
+    .container{
+        padding:25px;
+    }
+
+    .buttons{
+        flex-direction:column;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="circle"></div>
+<div class="circle"></div>
+<div class="circle"></div>
+
+<div class="container">
+
+    <h1>Edit Service Request</h1>
+
+    <p class="subtitle">
+        Update your service request details
+    </p>
+
+    <div class="status-box">
+        Current Status:
+        <strong>{{ service_request.status }}</strong>
+    </div>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label>Request Title</label>
+
+            <input
+                type="text"
+                name="title"
+                value="{{ service_request.title }}"
+                required
+            >
+        </div>
+
+        <div class="form-group">
+
+            <label>Category</label>
+
+            <select name="category" required>
+
+                <option value="PLUMBER"
+                {% if service_request.category == 'PLUMBER' %}
+                selected
+                {% endif %}
+                >
+                Plumber
+                </option>
+
+                <option value="ELECTRICIAN"
+                {% if service_request.category == 'ELECTRICIAN' %}
+                selected
+                {% endif %}
+                >
+                Electrician
+                </option>
+
+                <option value="CLEANING"
+                {% if service_request.category == 'CLEANING' %}
+                selected
+                {% endif %}
+                >
+                Cleaning
+                </option>
+
+                <option value="OTHER"
+                {% if service_request.category == 'OTHER' %}
+                selected
+                {% endif %}
+                >
+                Other
+                </option>
+
+            </select>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Description</label>
+
+            <textarea
+                name="description"
+                required
+            >{{ service_request.description }}</textarea>
+
+        </div>
+
+        <div class="buttons">
+
+            <button
+                type="submit"
+                class="btn update-btn">
+                Update Request
+            </button>
+
+            <a href="{% url 'view_requests' %}" style="flex:1;">
+                <button
+                    type="button"
+                    class="btn cancel-btn"
+                    style="width:100%;">
+                    Cancel
+                </button>
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+</html>
+```

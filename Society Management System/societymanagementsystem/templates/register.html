@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Society Management System - Register</title>
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+
+    background:linear-gradient(
+        -45deg,
+        #0f172a,
+        #1e293b,
+        #2563eb,
+        #7c3aed
+    );
+
+    background-size:400% 400%;
+    animation:gradientAnimation 12s ease infinite;
+
+    overflow-x:hidden;
+    overflow-y:auto;
+
+    position:relative;
+}
+
+@keyframes gradientAnimation{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+.bubble{
+    position:absolute;
+    border-radius:50%;
+    background:rgba(255,255,255,.08);
+    animation:float 18s linear infinite;
+}
+
+.bubble:nth-child(1){
+    width:120px;
+    height:120px;
+    left:10%;
+    top:90%;
+}
+
+.bubble:nth-child(2){
+    width:180px;
+    height:180px;
+    right:10%;
+    top:80%;
+    animation-duration:22s;
+}
+
+.bubble:nth-child(3){
+    width:80px;
+    height:80px;
+    left:70%;
+    top:95%;
+}
+
+.bubble:nth-child(4){
+    width:140px;
+    height:140px;
+    left:80%;
+    top:20%;
+}
+
+@keyframes float{
+    from{
+        transform:translateY(0) rotate(0deg);
+    }
+    to{
+        transform:translateY(-1200px) rotate(360deg);
+    }
+}
+
+.container{
+    width:100%;
+    max-width:460px;
+
+    padding:40px;
+
+    border-radius:25px;
+
+    background:rgba(255,255,255,.12);
+
+    border:1px solid rgba(255,255,255,.18);
+
+    backdrop-filter:blur(20px);
+
+    box-shadow:0 20px 50px rgba(0,0,0,.35);
+
+    animation:fadeIn 1s ease;
+
+    position:relative;
+    z-index:10;
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(40px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.logo{
+    text-align:center;
+    margin-bottom:10px;
+}
+
+.logo h1{
+    color:#fff;
+    font-size:30px;
+    font-weight:700;
+}
+
+.logo span{
+    color:#c4b5fd;
+}
+
+.subtitle{
+    text-align:center;
+    color:#e2e8f0;
+    margin-bottom:25px;
+    font-size:14px;
+}
+
+.form-group{
+    margin-bottom:16px;
+}
+
+.form-group label{
+    display:block;
+    color:#fff;
+    margin-bottom:6px;
+    font-size:14px;
+}
+
+.form-group input{
+    width:100%;
+
+    padding:14px;
+
+    border:none;
+    outline:none;
+
+    border-radius:12px;
+
+    background:rgba(255,255,255,.15);
+
+    color:#fff;
+
+    transition:.3s;
+}
+
+.form-group input::placeholder{
+    color:#cbd5e1;
+}
+
+.form-group input:focus{
+    background:rgba(255,255,255,.25);
+    box-shadow:0 0 15px rgba(255,255,255,.25);
+    transform:translateY(-2px);
+}
+
+.register-btn{
+    width:100%;
+
+    padding:14px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:linear-gradient(
+        135deg,
+        #6366f1,
+        #8b5cf6
+    );
+
+    color:#fff;
+
+    font-size:16px;
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.register-btn:hover{
+    transform:translateY(-3px);
+    box-shadow:0 10px 25px rgba(99,102,241,.5);
+}
+
+.login-link{
+    text-align:center;
+    margin-top:18px;
+    color:#e2e8f0;
+}
+
+.login-link a{
+    color:#fff;
+    text-decoration:none;
+    font-weight:600;
+}
+
+.login-link a:hover{
+    text-decoration:underline;
+}
+
+.footer{
+    text-align:center;
+    margin-top:20px;
+    font-size:12px;
+    color:#cbd5e1;
+}
+
+/* Tablet */
+
+@media screen and (max-width:768px){
+
+    body{
+        align-items:flex-start;
+    }
+
+    .container{
+        margin-top:20px;
+        margin-bottom:20px;
+        padding:30px;
+    }
+
+    .logo h1{
+        font-size:26px;
+    }
+}
+
+/* Mobile */
+
+@media screen and (max-width:480px){
+
+    body{
+        padding:15px;
+    }
+
+    .container{
+        padding:25px 20px;
+        border-radius:20px;
+    }
+
+    .logo h1{
+        font-size:22px;
+        line-height:1.4;
+    }
+
+    .subtitle{
+        font-size:13px;
+    }
+
+    .form-group label{
+        font-size:13px;
+    }
+
+    .form-group input{
+        padding:12px;
+        font-size:14px;
+    }
+
+    .register-btn{
+        padding:12px;
+        font-size:15px;
+    }
+
+    .login-link{
+        font-size:13px;
+    }
+
+    .footer{
+        font-size:11px;
+    }
+
+    .bubble{
+        display:none;
+    }
+}
+
+/* Small Phones */
+
+@media screen and (max-width:350px){
+
+    .container{
+        padding:18px;
+    }
+
+    .logo h1{
+        font-size:18px;
+    }
+
+    .form-group input{
+        padding:10px;
+    }
+
+    .register-btn{
+        padding:10px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+{{e}}
+
+<div class="bubble"></div>
+<div class="bubble"></div>
+<div class="bubble"></div>
+<div class="bubble"></div>
+
+<div class="container">
+
+    <div class="logo">
+        <h1>Society <span>Management System</span></h1>
+    </div>
+
+    <div class="subtitle">
+        Create your resident account
+    </div>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" name="name" placeholder="Enter your full name" required>
+        </div>
+
+        <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" name="email" placeholder="Enter your email" required>
+        </div>
+
+        <div class="form-group">
+            <label>House Number</label>
+            <input type="text" name="house_number" placeholder="A-102" required>
+        </div>
+
+        <div class="form-group">
+            <label>Phone Number</label>
+            <input type="text" name="phone_number" placeholder="03XXXXXXXXX" required>
+        </div>
+
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" name="password" placeholder="Create password" required>
+        </div>
+
+        <button type="submit" class="register-btn">
+            Create Account
+        </button>
+
+    </form>
+
+    <div class="login-link">
+        Already have an account?
+        <a href="{% url 'login' %}">
+            Login
+        </a>
+    </div>
+
+    <div class="footer">
+        © 2026 Society Management System
+    </div>
+
+</div>
+
+</body>
+</html>

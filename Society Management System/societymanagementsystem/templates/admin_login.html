@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Login - Society Management System</title>
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+
+    background:linear-gradient(
+    -45deg,
+    #0f172a,
+    #1e293b,
+    #2563eb,
+    #7c3aed);
+
+    background-size:400% 400%;
+    animation:bgAnimation 12s ease infinite;
+}
+
+@keyframes bgAnimation{
+
+    0%{
+        background-position:0% 50%;
+    }
+
+    50%{
+        background-position:100% 50%;
+    }
+
+    100%{
+        background-position:0% 50%;
+    }
+}
+
+.circle{
+    position:absolute;
+    border-radius:50%;
+    background:rgba(255,255,255,.05);
+    animation:float 20s linear infinite;
+}
+
+.circle:nth-child(1){
+    width:200px;
+    height:200px;
+    left:10%;
+    bottom:-100px;
+}
+
+.circle:nth-child(2){
+    width:300px;
+    height:300px;
+    right:5%;
+    bottom:-150px;
+}
+
+.circle:nth-child(3){
+    width:120px;
+    height:120px;
+    top:10%;
+    right:25%;
+}
+
+@keyframes float{
+
+    from{
+        transform:translateY(0) rotate(0deg);
+    }
+
+    to{
+        transform:translateY(-1200px) rotate(360deg);
+    }
+}
+
+.login-container{
+
+    width:90%;
+    max-width:450px;
+
+    background:rgba(255,255,255,.08);
+
+    backdrop-filter:blur(20px);
+
+    border:1px solid rgba(255,255,255,.1);
+
+    border-radius:25px;
+
+    padding:40px;
+
+    color:white;
+
+    animation:slideUp .8s ease;
+}
+
+@keyframes slideUp{
+
+    from{
+        opacity:0;
+        transform:translateY(40px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.logo{
+
+    text-align:center;
+    font-size:60px;
+    margin-bottom:10px;
+}
+
+h1{
+
+    text-align:center;
+    margin-bottom:10px;
+}
+
+.subtitle{
+
+    text-align:center;
+    color:#cbd5e1;
+    margin-bottom:30px;
+}
+
+.input-group{
+
+    margin-bottom:20px;
+}
+
+.input-group label{
+
+    display:block;
+    margin-bottom:8px;
+}
+
+.input-group input{
+
+    width:100%;
+    padding:14px;
+
+    border:none;
+
+    border-radius:12px;
+
+    outline:none;
+
+    background:rgba(255,255,255,.12);
+
+    color:white;
+
+    transition:.3s;
+}
+
+.input-group input:focus{
+
+    background:rgba(255,255,255,.18);
+
+    box-shadow:0 0 15px rgba(255,255,255,.2);
+}
+
+.login-btn{
+
+    width:100%;
+
+    padding:15px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#22c55e;
+
+    color:white;
+
+    font-size:16px;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.login-btn:hover{
+
+    transform:translateY(-3px);
+}
+
+.error{
+
+    background:#ef4444;
+
+    padding:12px;
+
+    border-radius:10px;
+
+    text-align:center;
+
+    margin-bottom:20px;
+}
+
+.back-link{
+
+    text-align:center;
+
+    margin-top:20px;
+}
+
+.back-link a{
+
+    color:white;
+    text-decoration:none;
+}
+
+@media(max-width:600px){
+
+    .login-container{
+
+        padding:25px;
+    }
+
+    h1{
+        font-size:26px;
+    }
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="circle"></div>
+<div class="circle"></div>
+<div class="circle"></div>
+
+<div class="login-container">
+
+    <div class="logo">🛡️</div>
+
+    <h1>Admin Login</h1>
+
+    <p class="subtitle">
+        Society Management System
+    </p>
+
+    {% if error %}
+
+    <div class="error">
+        {{ error }}
+    </div>
+
+    {% endif %}
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <div class="input-group">
+
+            <label>Email</label>
+
+            <input
+            type="email"
+            name="email"
+            placeholder="admin@gmail.com"
+            required>
+
+        </div>
+
+        <div class="input-group">
+
+            <label>Password</label>
+
+            <input
+            type="password"
+            name="password"
+            placeholder="Enter Password"
+            required>
+
+        </div>
+
+        <button type="submit" class="login-btn">
+
+            Login as Admin
+
+        </button>
+
+    </form>
+
+    <div class="back-link">
+
+        <a href="{% url 'index' %}">
+            ← Back To Home
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

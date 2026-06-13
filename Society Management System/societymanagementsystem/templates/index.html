@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Society Management System</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#0f172a;
+    color:white;
+    overflow-x:hidden;
+}
+
+/* Animated Background */
+
+body::before{
+    content:'';
+    position:fixed;
+    width:100%;
+    height:100%;
+    top:0;
+    left:0;
+    background:linear-gradient(-45deg,#0f172a,#1e293b,#2563eb,#7c3aed);
+    background-size:400% 400%;
+    animation:gradientBG 12s ease infinite;
+    z-index:-2;
+}
+
+@keyframes gradientBG{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+/* Floating Circles */
+
+.circle{
+    position:fixed;
+    border-radius:50%;
+    background:rgba(255,255,255,0.05);
+    animation:float 20s linear infinite;
+    z-index:-1;
+}
+
+.circle:nth-child(1){
+    width:120px;
+    height:120px;
+    left:10%;
+    top:90%;
+}
+
+.circle:nth-child(2){
+    width:180px;
+    height:180px;
+    right:10%;
+    top:80%;
+}
+
+.circle:nth-child(3){
+    width:80px;
+    height:80px;
+    left:75%;
+    top:95%;
+}
+
+.circle:nth-child(4){
+    width:150px;
+    height:150px;
+    left:80%;
+    top:15%;
+}
+
+@keyframes float{
+    from{
+        transform:translateY(0) rotate(0deg);
+    }
+    to{
+        transform:translateY(-1200px) rotate(360deg);
+    }
+}
+
+/* Navbar */
+
+nav{
+    width:100%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 8%;
+    position:fixed;
+    top:0;
+    backdrop-filter:blur(20px);
+    background:rgba(255,255,255,0.05);
+    z-index:1000;
+}
+
+.logo{
+    font-size:24px;
+    font-weight:700;
+}
+
+.logo span{
+    color:#a78bfa;
+}
+
+.nav-buttons a{
+    text-decoration:none;
+    margin-left:15px;
+}
+
+.btn{
+    padding:10px 22px;
+    border-radius:10px;
+    border:none;
+    cursor:pointer;
+    font-weight:600;
+    transition:.3s;
+}
+
+.login-btn{
+    background:transparent;
+    border:1px solid white;
+    color:white;
+}
+
+.register-btn{
+    background:#7c3aed;
+    color:white;
+}
+
+.btn:hover{
+    transform:translateY(-3px);
+}
+
+/* Hero */
+
+.hero{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:20px;
+}
+
+.hero h1{
+    font-size:60px;
+    margin-bottom:20px;
+    animation:slideDown 1s ease;
+}
+
+.hero p{
+    max-width:700px;
+    line-height:1.8;
+    font-size:18px;
+    color:#e2e8f0;
+}
+
+.hero-buttons{
+    margin-top:35px;
+}
+
+.hero-buttons a{
+    text-decoration:none;
+}
+
+.hero-buttons .btn{
+    margin:10px;
+    padding:14px 30px;
+}
+
+@keyframes slideDown{
+    from{
+        opacity:0;
+        transform:translateY(-40px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* Section */
+
+.section{
+    padding:100px 8%;
+}
+
+.section-title{
+    text-align:center;
+    font-size:40px;
+    margin-bottom:50px;
+}
+
+/* Cards */
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:25px;
+}
+
+.card{
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(15px);
+    padding:30px;
+    border-radius:20px;
+    transition:.4s;
+    border:1px solid rgba(255,255,255,0.1);
+}
+
+.card:hover{
+    transform:translateY(-10px);
+    box-shadow:0 20px 40px rgba(0,0,0,.3);
+}
+
+.card h3{
+    margin-bottom:15px;
+}
+
+.card p{
+    color:#cbd5e1;
+    line-height:1.7;
+}
+
+/* Footer */
+
+footer{
+    text-align:center;
+    padding:30px;
+    border-top:1px solid rgba(255,255,255,0.1);
+    color:#cbd5e1;
+}
+
+/* Responsive */
+
+@media(max-width:768px){
+
+    .hero h1{
+        font-size:38px;
+    }
+
+    .hero p{
+        font-size:15px;
+    }
+
+    nav{
+        padding:15px 5%;
+    }
+
+    .logo{
+        font-size:18px;
+    }
+
+    .btn{
+        padding:10px 16px;
+    }
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="circle"></div>
+<div class="circle"></div>
+<div class="circle"></div>
+<div class="circle"></div>
+
+<nav>
+    <div class="logo">
+        Society <span>Management System</span>
+    </div>
+
+<div class="nav-buttons">
+    <a href="{% url 'login' %}">
+        <button class="btn login-btn">Login</button>
+    </a>
+
+    <a href="{% url 'register' %}">
+        <button class="btn register-btn">Register</button>
+    </a>
+</div>
+
+</nav>
+
+<section class="hero">
+
+
+<h1>Smart Society Management</h1>
+
+<p>
+    Manage service requests, society announcements,
+    maintenance complaints and resident activities
+    through one centralized platform designed for
+    modern residential communities.
+</p>
+
+<div class="hero-buttons">
+
+    <a href="{% url 'register' %}">
+        <button class="btn register-btn">
+            Get Started
+        </button>
+    </a>
+
+    <a href="{% url 'login' %}">
+        <button class="btn login-btn">
+            Login
+        </button>
+    </a>
+
+</div>
+
+
+</section>
+
+<section class="section">
+
+
+<h2 class="section-title">
+    Our Services
+</h2>
+
+<div class="grid">
+
+    <div class="card">
+        <h3>🔧 Plumbing Requests</h3>
+        <p>
+            Residents can submit plumbing issues and
+            track request status from creation to completion.
+        </p>
+    </div>
+
+    <div class="card">
+        <h3>⚡ Electrical Support</h3>
+        <p>
+            Report electrical problems and receive updates
+            after admin approval.
+        </p>
+    </div>
+
+    <div class="card">
+        <h3>🧹 Cleaning Services</h3>
+        <p>
+            Request cleaning assistance for common areas
+            and residential maintenance.
+        </p>
+    </div>
+
+    <div class="card">
+        <h3>🛡 Security Issues</h3>
+        <p>
+            Report security concerns directly to society
+            administration.
+        </p>
+    </div>
+
+    <div class="card">
+        <h3>📢 Announcements</h3>
+        <p>
+            Receive important notices, maintenance updates
+            and community news.
+        </p>
+    </div>
+
+    <div class="card">
+        <h3>📋 Request Tracking</h3>
+        <p>
+            Monitor request progress from Pending to
+            Approved and Completed.
+        </p>
+    </div>
+
+</div>
+
+
+</section>
+
+<section class="section">
+
+
+<h2 class="section-title">
+    Why Choose Our System?
+</h2>
+
+<div class="grid">
+
+    <div class="card">
+        <h3>✔ Easy Registration</h3>
+        <p>
+            Residents can quickly create accounts and access services.
+        </p>
+    </div>
+
+    <div class="card">
+        <h3>✔ Approval Workflow</h3>
+        <p>
+            Every request follows a structured approval process.
+        </p>
+    </div>
+
+    <div class="card">
+        <h3>✔ Centralized Management</h3>
+        <p>
+            Manage complaints, announcements and requests from one place.
+        </p>
+    </div>
+
+    <div class="card">
+        <h3>✔ Responsive Design</h3>
+        <p>
+            Works perfectly on desktops, tablets and mobile devices.
+        </p>
+    </div>
+
+</div>
+
+
+</section>
+
+<footer>
+    © 2026 Society Management System | All Rights Reserved
+</footer>
+
+</body>
+</html>
